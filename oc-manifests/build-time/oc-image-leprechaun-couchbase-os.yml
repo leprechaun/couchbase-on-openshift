@@ -1,0 +1,17 @@
+kind: "BuildConfig"
+apiVersion: "v1"
+metadata:
+  name: "image-leprechaun-couchbase-os"
+spec:
+  source:
+    type: Git
+    git:
+      uri: "https://github.com/leprechaun/couchbase-openshift"
+  strategy:
+    type: Docker
+    dockerStragegy:
+      noCache: true
+  output:
+    to:
+      kind: "ImageStreamTag"
+      name: "image-leprechaun-couchbase-os:latest"

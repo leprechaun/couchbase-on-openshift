@@ -1,0 +1,13 @@
+kind: "BuildConfig"
+apiVersion: "v1"
+metadata:
+  name: "pipeline-leprechaun-couchbase-os"
+spec:
+  source:
+    type: "Git"
+    git:
+      uri: "https://github.com/leprechaun/couchbase-os"
+  strategy:
+    type: "JenkinsPipeline"
+    jenkinsPipelineStrategy:
+      jenkinsfilePath: ./
