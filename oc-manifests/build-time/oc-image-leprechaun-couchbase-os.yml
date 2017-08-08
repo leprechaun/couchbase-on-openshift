@@ -14,4 +14,4 @@ spec:
   output:
     to:
       kind: "ImageStreamTag"
-      name: "image-leprechaun-couchbase-os:latest"
+      name: "leprechaun-couchbase-os:latest"
