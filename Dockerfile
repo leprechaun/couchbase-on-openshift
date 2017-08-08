@@ -13,7 +13,9 @@ RUN make-writable /opt/couchbase/var/lib/couchbase/data
 #RUN make-writable /opt/couchbase/var/lib/couchbase/stats
 
 RUN mkdir -p      /opt/couchbase/var/lib/couchbase/logs
+RUN rm /opt/couchbase/var/lib/couchbase/logs/*
 RUN make-writable /opt/couchbase/var/lib/couchbase/logs
+
 
 RUN mkdir -p      /var/lib/moxi
 RUN make-writable /var/lib/moxi
