@@ -23,3 +23,7 @@ RUN make-writable /var/lib/moxi
 RUN make-writable /var/lib/supervise
 
 RUN echo "heavily customised version" > /tmp/msg
+
+EXPOSE 8091
+ENTRYPOINT []
+CMD ["couchbase-server"]
