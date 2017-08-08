@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: leprechaun-jenkins-blue-test
+  name: leprechaun-couchbase-os
   namespace: test-project
 spec:
   ports:
     - name: web
       protocol: TCP
       port: 80
-      targetPort: 8080
+      targetPort: 8091
   selector:
-    deploymentconfig: leprechaun-jenkins-blue-test
+    deploymentconfig: leprechaun-couchbase-os
   type: ClusterIP
   sessionAffinity: None
