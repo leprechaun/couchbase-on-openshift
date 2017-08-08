@@ -6,7 +6,7 @@ spec:
   source:
     type: Git
     git:
-      uri: "https://github.com/leprechaun/couchbase-openshift"
+      uri: "https://github.com/leprechaun/couchbase-on-openshift"
   strategy:
     type: Docker
     dockerStragegy:
