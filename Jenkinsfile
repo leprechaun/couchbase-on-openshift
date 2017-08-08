@@ -48,15 +48,15 @@ pipeline {
           def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
           def shortCommit = gitCommit.take(8)
           openshiftBuild(
-            bldCfg: 'image-leprechaun-jenkins-blue-test',
+            bldCfg: 'image-leprechaun-couchbase-os',
             showBuildLogs: 'true',
             commit: shortCommit
           )
 
           openshiftTag(
-            sourceStream: 'leprechaun-jenkins-blue-test',
+            sourceStream: 'leprechaun-couchbase-os',
             sourceTag: 'latest',
-            destinationStream: 'leprechaun-jenkins-blue-test',
+            destinationStream: 'leprechaun-couchbase-os',
             destinationTag: shortCommit
           )
         }
@@ -75,7 +75,7 @@ pipeline {
           def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
           def shortCommit = gitCommit.take(8)
           openshiftDeploy(
-            depCfg: 'leprechaun-jenkins-blue-test'
+            depCfg: 'leprechaun-couchbase-os'
           )
         }
       }
