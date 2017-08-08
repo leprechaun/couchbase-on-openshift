@@ -5,8 +5,10 @@ RUN chmod 755 /usr/local/bin/make-writable
 
 RUN mkdir -p /opt/couchbase/var/lib/couchbase/{config,data,stats,logs}
 RUN make-writable /opt/couchbase/var/lib/couchbase/{config,data,stats,logs}
+
 RUN mkdir -p /var/lib/moxi
 RUN make-writable /var/lib/moxi
+
 RUN make-writable /var/lib/supervise
 
 RUN echo "heavily customised version" > /tmp/msg
