@@ -26,9 +26,12 @@ RUN make-writable /var/lib/supervise
 
 RUN echo "heavily customised version" > /tmp/msg
 
+ADD run.sh /run
+RUN chmod 755 /run
+
 
 EXPOSE 8091
 ENTRYPOINT []
-CMD ["couchbase-server"]
+CMD ["/run"]
 
 # exec /opt/couchbase/bin/couchbase-server -- -kernel global_enable_tracing false -noinput
