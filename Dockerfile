@@ -4,7 +4,6 @@ ADD ./make-writable /usr/local/bin/make-writable
 RUN chmod 755 /usr/local/bin/make-writable
 
 RUN rm -rf /opt/couchbase/var/lib/couchbase
-VOLUME /opt/couchbase/var/lib/couchbase/
 RUN chgrp -R 0 /opt/couchbase/var/lib/
 
 RUN mkdir -p      /opt/couchbase/var/lib/couchbase/config
