@@ -3,7 +3,7 @@ FROM couchbase:4.6.2
 ADD ./make-writable /usr/local/bin/make-writable
 RUN chmod 755 /usr/local/bin/make-writable
 
-RUN rm -rf /opt/couchbase/var/lib/couchbase/
+RUN rm -rf /opt/couchbase/var/lib/couchbase
 VOLUME /opt/couchbase/var/lib/couchbase/
 
 RUN mkdir -p      /opt/couchbase/var/lib/couchbase/config
@@ -18,6 +18,8 @@ RUN make-writable /opt/couchbase/var/lib/couchbase/data
 RUN mkdir -p      /opt/couchbase/var/lib/couchbase/logs
 RUN rm /opt/couchbase/var/lib/couchbase/logs/*
 RUN make-writable /opt/couchbase/var/lib/couchbase/logs
+
+RUN make-writable /opt/couchbase/var/lib/couchbase/
 
 
 RUN mkdir -p      /var/lib/moxi
