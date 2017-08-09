@@ -4,22 +4,22 @@ ADD ./make-writable /usr/local/bin/make-writable
 RUN chmod 755 /usr/local/bin/make-writable
 
 RUN rm -rf /opt/couchbase/var/lib/couchbase
-RUN chgrp -R 0 /opt/couchbase/var/lib/
+#RUN chgrp -R 0 /opt/couchbase/var/lib/
 
-RUN mkdir -p      /opt/couchbase/var/lib/couchbase/config
-RUN make-writable /opt/couchbase/var/lib/couchbase/config
+#RUN mkdir -p      /opt/couchbase/var/lib/couchbase/config
+#RUN make-writable /opt/couchbase/var/lib/couchbase/config
 
-RUN mkdir -p      /opt/couchbase/var/lib/couchbase/data
-RUN make-writable /opt/couchbase/var/lib/couchbase/data
+#RUN mkdir -p      /opt/couchbase/var/lib/couchbase/data
+#RUN make-writable /opt/couchbase/var/lib/couchbase/data
 
 #RUN mkdir -p      /opt/couchbase/var/lib/couchbase/stats
 #RUN make-writable /opt/couchbase/var/lib/couchbase/stats
 
-RUN mkdir -p      /opt/couchbase/var/lib/couchbase/logs
-RUN rm /opt/couchbase/var/lib/couchbase/logs/*
-RUN make-writable /opt/couchbase/var/lib/couchbase/logs
+#RUN mkdir -p      /opt/couchbase/var/lib/couchbase/logs
+#RUN rm /opt/couchbase/var/lib/couchbase/logs/*
+#RUN make-writable /opt/couchbase/var/lib/couchbase/logs
 
-RUN make-writable /opt/couchbase/var/lib/couchbase/
+#RUN make-writable /opt/couchbase/var/lib/couchbase/
 
 
 RUN mkdir -p      /var/lib/moxi
@@ -35,6 +35,6 @@ RUN chmod 755 /run.sh
 
 EXPOSE 8091
 ENTRYPOINT []
-CMD ["bash", "/run"]
+CMD ["bash"]
 
 # exec /opt/couchbase/bin/couchbase-server -- -kernel global_enable_tracing false -noinput
