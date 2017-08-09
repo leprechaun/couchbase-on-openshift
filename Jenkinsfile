@@ -81,6 +81,7 @@ pipeline {
       }
     }
 
+    /*
     stage("Verify: Testing ENV") {
       steps {
         parallel(
@@ -93,5 +94,6 @@ pipeline {
         )
       }
     }
+    */
   }
 }
