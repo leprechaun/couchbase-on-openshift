@@ -26,8 +26,8 @@ RUN make-writable /var/lib/supervise
 
 RUN echo "heavily customised version" > /tmp/msg
 
-ADD run.sh /run
-RUN chmod 755 /run
+ADD run.sh /run.sh
+RUN chmod 755 /run.sh
 
 
 EXPOSE 8091
