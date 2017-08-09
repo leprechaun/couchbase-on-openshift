@@ -32,6 +32,6 @@ RUN chmod 755 /run
 
 EXPOSE 8091
 ENTRYPOINT []
-CMD ["/run"]
+CMD ["bash", "/run"]
 
 # exec /opt/couchbase/bin/couchbase-server -- -kernel global_enable_tracing false -noinput
