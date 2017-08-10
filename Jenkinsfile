@@ -70,26 +70,28 @@ pipeline {
     }
 
     stage("Deploy: Testing ENV") {
-      parallel(
-        "manager": {
-          script {
-            def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-            def shortCommit = gitCommit.take(8)
-            openshiftDeploy(
-              depCfg: 'couchbase-os-manager'
-            )
+      steps {
+        parallel(
+          "manager": {
+            script {
+              def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+              def shortCommit = gitCommit.take(8)
+              openshiftDeploy(
+                depCfg: 'couchbase-os-manager'
+              )
+            }
+          },
+          "worker": {
+            script {
+              def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+              def shortCommit = gitCommit.take(8)
+              openshiftDeploy(
+                depCfg: 'couchbase-os-worker'
+              )
+            }
           }
-        },
-        "worker": {
-          script {
-            def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-            def shortCommit = gitCommit.take(8)
-            openshiftDeploy(
-              depCfg: 'couchbase-os-worker'
-            )
-          }
-        }
-      )
+        )
+      }
     }
 
     /*
