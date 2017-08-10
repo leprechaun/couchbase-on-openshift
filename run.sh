@@ -61,7 +61,7 @@ worker(){
 	sleep 5
 	common
 
-	couchbase-cli rebalance --cluster=$MANAGER_URI --user=$USERNAME --password=$PASSWORD --server-add=$IP --server-add-username=$USERNAME --server-add-password=$PASSWORD
+	couchbase-cli rebalance --cluster=couchbase-os-manager --user=$USERNAME --password=$PASSWORD --server-add=$IP --server-add-username=$USERNAME --server-add-password=$PASSWORD
 
 	echo "Bootstrap finished"
 	sleep 3600
