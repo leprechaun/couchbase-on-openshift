@@ -7,6 +7,9 @@ export MODE="$1"
 export MANAGER_URI="$MANAGER_URI"
 export MEMORY_QUOTA="${MEMORY_QUOTA:-300}"
 export MEMORY_QUOTA_INDEX="${MEMORY_QUOTA:-300}"
+
+echo "Mode: $MODE"
+echo "MANAGER_URI: $MANAGER_URI"
 # expect USERNAME
 # expect PASSWORD
 # expect
