@@ -54,6 +54,8 @@ spec:
               value: administrator
             - name: PASSWORD
               value: guessme
+            - name: MANAGER_URI
+              value: http://leprechaun-couchbase-os-manager:8091/
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       volumes:
