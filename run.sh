@@ -65,6 +65,7 @@ worker(){
 	exit 0
 }
 
+set -x
 case $1 in
 couchbase-server)
 	couchbase
