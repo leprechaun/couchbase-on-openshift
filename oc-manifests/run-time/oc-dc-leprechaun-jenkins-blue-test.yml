@@ -39,6 +39,11 @@ spec:
             172.30.1.1:5000/test-project/leprechaun-couchbase-os
           args:
           - bootstrap-manager
+          environment:
+            - name: USERNAME
+              value: administrator
+            - name: PASSWORD
+              value: guessme
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
