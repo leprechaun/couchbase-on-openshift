@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
-couchbase-server &
+mkdir -p /opt/couchbase/var/lib/couchbase/{data,logs,stats,config}
 
-tail -f /opt/couchbase/var/lib/couchbase/logs/*
+couchbase-server
+
+#tail -f /opt/couchbase/var/lib/couchbase/logs/* || true
+
+#fg
