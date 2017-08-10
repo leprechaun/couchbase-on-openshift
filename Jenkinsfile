@@ -70,14 +70,27 @@ pipeline {
     }
 
     stage("Deploy: Testing ENV") {
-      steps {
-        script {
-          def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-          def shortCommit = gitCommit.take(8)
-          openshiftDeploy(
-            depCfg: 'leprechaun-couchbase-os'
-          )
+      parallel(
+        "manager": {
+          script {
+            def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+            def shortCommit = gitCommit.take(8)
+            openshiftDeploy(
+              depCfg: 'couchbase-os-manager'
+            )
+          }
+        },
+        "worker": {
+          script {
+            def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+            def shortCommit = gitCommit.take(8)
+            openshiftDeploy(
+              depCfg: 'couchbase-os-worker'
+            )
+          }
         }
+      )
+      steps {
       }
     }
 
