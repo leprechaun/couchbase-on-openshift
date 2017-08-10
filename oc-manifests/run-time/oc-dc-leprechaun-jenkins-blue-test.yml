@@ -28,6 +28,9 @@ spec:
         - name: leprechaun-couchbase-os-couchbase
           image: >-
             172.30.1.1:5000/test-project/leprechaun-couchbase-os
+          volumeMounts:
+            - mountPath: /cache
+              name: cache-volume
           ports:
             - containerPort: 8091
               protocol: TCP
@@ -39,3 +42,6 @@ spec:
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
+    volumes:
+      - name: cache-volume
+        emptyDir: {}
