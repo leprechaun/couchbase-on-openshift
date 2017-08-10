@@ -7,7 +7,7 @@ spec:
   ports:
     - name: web
       protocol: TCP
-      port: 80
+      port: 8091
       targetPort: 8091
   selector:
     deploymentconfig: couchbase-os-worker
