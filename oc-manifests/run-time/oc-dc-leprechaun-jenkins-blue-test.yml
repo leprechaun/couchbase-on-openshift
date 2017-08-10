@@ -23,7 +23,7 @@ spec:
     metadata:
       labels:
         app: leprechaun-couchbase-os
-        deploymentconfig: leprechaun-couchbase-os
+        deploymentconfig: leprechaun-couchbase-os-manager
         component: manager
     spec:
       containers:
