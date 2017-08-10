@@ -33,6 +33,11 @@ spec:
           ports:
             - containerPort: 8091
               protocol: TCP
+          env:
+            - name: USERNAME
+              value: administrator
+            - name: PASSWORD
+              value: guessme
         - name: bootstrap
           image: >-
             172.30.1.1:5000/test-project/leprechaun-couchbase-os
@@ -41,7 +46,7 @@ spec:
           volumeMounts:
             - mountPath: /opt/couchbase/var/lib/couchbase/
               name: couchbase-ephemeral
-          environment:
+          env:
             - name: USERNAME
               value: administrator
             - name: PASSWORD
