@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: DeploymentConfig
 metadata:
-  name: leprechaun-couchbase-os-manager
+  name: couchbase-os-manager
   labels:
-    app: leprechaun-couchbase-os
+    app: couchbase-os
     component: manager
 spec:
   strategy:
@@ -16,14 +16,14 @@ spec:
       maxSurge: 25%
   replicas: 1
   selector:
-    app: leprechaun-couchbase-os
-    deploymentconfig: leprechaun-couchbase-os-manager
+    app: couchbase-os
+    deploymentconfig: couchbase-os-manager
     component: manager
   template:
     metadata:
       labels:
-        app: leprechaun-couchbase-os
-        deploymentconfig: leprechaun-couchbase-os-manager
+        app: couchbase-os
+        deploymentconfig: couchbase-os-manager
         component: manager
     spec:
       containers:

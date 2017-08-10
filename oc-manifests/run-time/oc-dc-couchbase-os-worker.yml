@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: DeploymentConfig
 metadata:
-  name: leprechaun-couchbase-os-worker
+  name: couchbase-os-worker
   labels:
-    app: leprechaun-couchbase-os
+    app: couchbase-os
     component: worker
 spec:
   strategy:
@@ -16,14 +16,14 @@ spec:
       maxSurge: 25%
   replicas: 1
   selector:
-    app: leprechaun-couchbase-os
+    app: couchbase-os
     component: worker
-    deploymentconfig: leprechaun-couchbase-os-worker
+    deploymentconfig: couchbase-os-worker
   template:
     metadata:
       labels:
-        app: leprechaun-couchbase-os
-        deploymentconfig: leprechaun-couchbase-os-worker
+        app: couchbase-os
+        deploymentconfig: couchbase-os-worker
         component: worker
     spec:
       containers:
