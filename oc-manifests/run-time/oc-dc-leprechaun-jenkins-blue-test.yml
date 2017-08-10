@@ -25,12 +25,17 @@ spec:
         deploymentconfig: leprechaun-couchbase-os
     spec:
       containers:
-        - name: leprechaun-couchbase-os
+        - name: leprechaun-couchbase-os-couchbase
           image: >-
             172.30.1.1:5000/test-project/leprechaun-couchbase-os
           ports:
             - containerPort: 8091
               protocol: TCP
+        - name: leprechaun-couchbase-os-bootstrap
+          image: >-
+            172.30.1.1:5000/test-project/leprechaun-couchbase-os
+          args:
+          - bootstrap-master
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
