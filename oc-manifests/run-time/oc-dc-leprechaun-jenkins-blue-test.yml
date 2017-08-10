@@ -24,7 +24,7 @@ spec:
         deploymentconfig: leprechaun-couchbase-os
     spec:
       containers:
-        - name: leprechaun-couchbase-os-couchbase
+        - name: couchbase
           image: >-
             172.30.1.1:5000/test-project/leprechaun-couchbase-os
           volumeMounts:
@@ -33,7 +33,7 @@ spec:
           ports:
             - containerPort: 8091
               protocol: TCP
-        - name: leprechaun-couchbase-os-bootstrap
+        - name: bootstrap
           image: >-
             172.30.1.1:5000/test-project/leprechaun-couchbase-os
           args:
