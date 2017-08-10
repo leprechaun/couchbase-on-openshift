@@ -46,7 +46,7 @@ spec:
               value: administrator
             - name: PASSWORD
               value: guessme
-      restartPolicy: Always
+      restartPolicy: Never
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
       volumes:
