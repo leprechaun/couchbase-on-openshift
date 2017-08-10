@@ -44,6 +44,7 @@ common(){
 manager(){
 	wait_until_responding http://localhost:8091/
 	common
+	sleep 3600
 	echo "Bootstrap finished"
 	exit 0
 
@@ -60,6 +61,7 @@ worker(){
 	couchbase-cli rebalance --cluster=$MANAGER_URI --user=$USERNAME --password=$PASSWORD --server-add=$IP --server-add-username=$USERNAME --server-add-password=$PASSWORD
 
 	echo "Bootstrap finished"
+	sleep 3600
 	exit 0
 }
 
