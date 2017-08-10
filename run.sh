@@ -70,9 +70,11 @@ couchbase-server)
 
 bootstrap-manager)
 	manager
+	sleep 3600
 	;;
 bootstrap-worker)
 	worker
+	sleep 3600
 	;;
 *)
 	$(${@})
