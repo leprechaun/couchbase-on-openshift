@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: DeploymentConfig
+metadata:
+  name: leprechaun-couchbase-os-worker
+  labels:
+    app: leprechaun-couchbase-os
+    component: worker
+spec:
+  strategy:
+    type: Rolling
+    rollingParams:
+      updatePeriodSeconds: 1
+      intervalSeconds: 1
+      timeoutSeconds: 600
+      maxUnavailable: 25%
+      maxSurge: 25%
+  replicas: 1
+  selector:
+    app: leprechaun-couchbase-os
+    component: worker
+    deploymentconfig: leprechaun-couchbase-os-worker
+  template:
+    metadata:
+      labels:
+        app: leprechaun-couchbase-os
+        deploymentconfig: leprechaun-couchbase-os-worker
+        component: worker
+    spec:
+      containers:
+        - name: couchbase
+          image: >-
+            172.30.1.1:5000/test-project/leprechaun-couchbase-os
+          volumeMounts:
+            - mountPath: /opt/couchbase/var/lib/couchbase/
+              name: couchbase-ephemeral
+          ports:
+            - containerPort: 8091
+              protocol: TCP
+          env:
+            - name: USERNAME
+              value: administrator
+            - name: PASSWORD
+              value: guessme
+        - name: bootstrap
+          image: >-
+            172.30.1.1:5000/test-project/leprechaun-couchbase-os
+          args:
+          - bootstrap-worker
+          volumeMounts:
+            - mountPath: /opt/couchbase/var/lib/couchbase/
+              name: couchbase-ephemeral
+          env:
+            - name: USERNAME
+              value: administrator
+            - name: PASSWORD
+              value: guessme
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      volumes:
+        - name: couchbase-ephemeral
+          emptyDir: {}
