@@ -42,6 +42,6 @@ spec:
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
       dnsPolicy: ClusterFirst
-    volumes:
-      - name: cache-volume
-        emptyDir: {}
+      volumes:
+        - name: cache-volume
+          emptyDir: {}
