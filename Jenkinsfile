@@ -71,42 +71,8 @@ pipeline {
 
     stage("Deploy: Testing ENV") {
       steps {
-        parallel(
-          "manager": {
-            script {
-              def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-              def shortCommit = gitCommit.take(8)
-              openshiftDeploy(
-                depCfg: 'couchbase-os-manager'
-              )
-            }
-          },
-          "worker": {
-            script {
-              def gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-              def shortCommit = gitCommit.take(8)
-              openshiftDeploy(
-                depCfg: 'couchbase-os-worker'
-              )
-            }
-          }
-        )
+        sh "oc apply -f oc-manifests/run-time/"
       }
     }
-
-    /*
-    stage("Verify: Testing ENV") {
-      steps {
-        parallel(
-          "curl1": {
-            sh "curl -v http://leprechaun-jenkins-blue-test.192.168.99.101.nip.io/"
-          },
-          "curl2": {
-            sh "curl -v http://leprechaun-jenkins-blue-test.192.168.99.101.nip.io/"
-          }
-        )
-      }
-    }
-    */
   }
 }
