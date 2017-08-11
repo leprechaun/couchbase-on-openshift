@@ -76,13 +76,6 @@ pipeline {
             bldCfg: 'image-leprechaun-jenkins-blue-test',
             showBuildLogs: 'true'
           )
-
-          openshiftTag(
-            sourceStream: 'leprechaun-jenkins-blue-test',
-            sourceTag: 'latest',
-            destinationStream: 'leprechaun-jenkins-blue-test',
-            destinationTag: shortCommit
-          )
         }
       }
     }
