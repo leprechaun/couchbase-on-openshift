@@ -20,7 +20,7 @@ export IP="$(hostname -I | cut -d ' ' -f1)"
 echo "-- local ip = $IP"
 
 export HOSTNAME_ASD="$(hostname --fqdn)"
-echo "-- hostname = ${HOSTNAME_ASD}
+echo "-- hostname = ${HOSTNAME_ASD}"
 
 
 wait_until_responding(){
