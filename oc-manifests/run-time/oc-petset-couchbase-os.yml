@@ -34,7 +34,7 @@ spec:
           image: >-
             172.30.1.1:5000/test-project/leprechaun-couchbase-os
           args:
-          - bootstrap-manager
+          - bootstrap
           volumeMounts:
             - mountPath: /opt/couchbase/var/lib/couchbase/
               name: couchbase-data

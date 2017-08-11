@@ -19,10 +19,6 @@ env
 export IP="$(hostname -I | cut -d ' ' -f1)"
 echo "-- local ip = $IP"
 
-export HOSTNAME_ASD="$(hostname --fqdn)"
-echo "-- hostname = ${HOSTNAME_ASD}"
-
-
 wait_until_responding(){
 	while true; do
 		curl -s $1
@@ -66,25 +62,31 @@ worker(){
 	sleep 5
 	common
 
-	couchbase-cli rebalance --cluster=couchbase-os-manager --user=$USERNAME --password=$PASSWORD --server-add=$IP --server-add-username=$USERNAME --server-add-password=$PASSWORD
+	couchbase-cli rebalance --cluster=couchbase-os --user=$USERNAME --password=$PASSWORD --server-add=$IP --server-add-username=$USERNAME --server-add-password=$PASSWORD
 
 	echo "Bootstrap finished"
 	sleep 3600
 	exit 0
 }
 
-set -x
+bootstrap(){
+	set -x
+	# If we're the first replica.
+	if [[ "${HOSTNAME}" == *-0 ]]; then
+		manager
+	else
+		worker
+	fi
+}
+
+
 case $1 in
 couchbase-server)
 	couchbase
 	;;
 
-bootstrap-manager)
-	manager
-	sleep 3600
-	;;
-bootstrap-worker)
-	worker
+bootstrap)
+	bootstrap
 	sleep 3600
 	;;
 *)
