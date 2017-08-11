@@ -15,8 +15,6 @@ echo "MANAGER_URI: $MANAGER_URI"
 # expect PASSWORD
 # expect
 
-env
-
 export IP="$(hostname -I | cut -d ' ' -f1)"
 echo "-- local ip = $IP"
 
