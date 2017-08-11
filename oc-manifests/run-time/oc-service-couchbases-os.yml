@@ -10,6 +10,6 @@ spec:
       port: 8091
       targetPort: 8091
   selector:
-    app: couchbase-os
+    name: couchbase-os
   type: ClusterIP
   sessionAffinity: None
