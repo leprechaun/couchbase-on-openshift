@@ -73,7 +73,7 @@ pipeline {
       steps {
         script {
           openshiftBuild(
-            bldCfg: 'image-leprechaun-jenkins-blue-test',
+            bldCfg: 'pipeline-leprechaun-jenkins-blue-test',
             showBuildLogs: 'true'
           )
         }
