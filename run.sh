@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
 mkdir -p /opt/couchbase/var/lib/couchbase/{data,logs,stats,config}
-find /opt/couchbase/var/lib/couchbase/
 
-rm /tmp/ready
+rm /tmp/ready || true
 
 export MODE="$1"
 export MANAGER_URI="$MANAGER_URI"

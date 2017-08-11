@@ -47,13 +47,13 @@ spec:
               value: guessme
             - name: MANAGER_URI
               value: http://couchbase-os:8091
-#          readinessProbe:
-#            exec:
-#              command:
-#              - cat
-#              - /tmp/healthy
-#            initialDelaySeconds: 5
-#            periodSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+              - cat
+              - /tmp/healthy
+            initialDelaySeconds: 5
+            periodSeconds: 5
 
   volumeClaimTemplates:
     - metadata:
