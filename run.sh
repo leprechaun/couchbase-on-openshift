@@ -3,6 +3,8 @@
 mkdir -p /opt/couchbase/var/lib/couchbase/{data,logs,stats,config}
 find /opt/couchbase/var/lib/couchbase/
 
+rm /tmp/ready
+
 export MODE="$1"
 export MANAGER_URI="$MANAGER_URI"
 export MEMORY_QUOTA="${MEMORY_QUOTA:-300}"
@@ -49,6 +51,7 @@ common(){
 manager(){
 	wait_until_responding http://localhost:8091/
 	common
+  echo 1 > /tmp/ready
 	sleep 3600
 	echo "Bootstrap finished"
 	exit 0

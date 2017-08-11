@@ -13,8 +13,8 @@ RUN make-writable /var/lib/supervise
 RUN echo "heavily customised version" > /tmp/msg
 
 ADD run.sh /run.sh
-RUN chmod 755 /run.sh
-
+ADD probe /probe
+RUN chmod 755 /run.sh /probe
 
 EXPOSE 8091
 ENTRYPOINT ["/run.sh"]
