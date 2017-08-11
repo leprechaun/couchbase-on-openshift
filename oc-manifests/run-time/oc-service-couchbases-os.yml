@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: couchbase-os-manager
+  name: couchbase-os
   namespace: test-project
 spec:
   ports:
@@ -10,6 +10,6 @@ spec:
       port: 8091
       targetPort: 8091
   selector:
-    deploymentconfig: couchbase-os-manager
+    app: couchbase-os
   type: ClusterIP
   sessionAffinity: None
