@@ -71,12 +71,7 @@ pipeline {
 
     stage("Trigger the nginx build ...") {
       steps {
-        script {
-          openshiftBuild(
-            bldCfg: 'pipeline-leprechaun-jenkins-blue-test',
-            showBuildLogs: 'true'
-          )
-        }
+        build job: 'pipeline-leprechaun-jenkins-blue-test'
       }
     }
 
