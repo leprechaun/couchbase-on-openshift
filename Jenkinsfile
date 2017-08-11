@@ -71,7 +71,7 @@ pipeline {
 
     stage("Trigger the nginx build ...") {
       steps {
-        build job: 'test-project/pipeline-leprechaun-jenkins-blue-test'
+        build job: 'test-project-pipeline-leprechaun-couchbase-os'
       }
     }
 
