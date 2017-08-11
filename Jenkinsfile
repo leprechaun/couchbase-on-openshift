@@ -68,5 +68,26 @@ pipeline {
         sh "oc apply -f oc-manifests/run-time/"
       }
     }
+
+    stage("Trigger the nginx build ...") {
+      steps {
+        script {
+          openshiftBuild(
+            bldCfg: 'image-leprechaun-jenkins-blue-test',
+            showBuildLogs: 'true'
+          )
+
+          openshiftTag(
+            sourceStream: 'leprechaun-jenkins-blue-test',
+            sourceTag: 'latest',
+            destinationStream: 'leprechaun-jenkins-blue-test',
+            destinationTag: shortCommit
+          )
+        }
+      }
+    }
+
+
+
   }
 }
