@@ -14,8 +14,13 @@ echo "MANAGER_URI: $MANAGER_URI"
 # expect PASSWORD
 # expect
 
+env
+
 export IP="$(hostname -I | cut -d ' ' -f1)"
 echo "-- local ip = $IP"
+
+export HOSTNAME_ASD="$(hostname --fqdn)"
+echo "-- hostname = ${HOSTNAME_ASD}
 
 
 wait_until_responding(){
