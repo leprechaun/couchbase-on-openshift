@@ -68,11 +68,5 @@ pipeline {
         sh "oc apply -f oc-manifests/run-time/"
       }
     }
-
-    stage("Deploy: Testing ENV") {
-      steps {
-        sh "oc apply -f oc-manifests/run-time/"
-      }
-    }
   }
 }
