@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+# PROBES
+readiness_check(){
+	cat /tmp/ready
+}
+
+
+case $1 in
+readiness)
+	readiness_check
+	;;
+*)
+	$(${@})
+	;;
+esac
