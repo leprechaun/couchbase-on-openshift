@@ -68,11 +68,5 @@ pipeline {
         sh "oc apply -f oc-manifests/run-time/"
       }
     }
-
-    stage("Trigger the nginx build ...") {
-      steps {
-        build('../test-project-pipeline-leprechaun-jenkins-blue-test', parameters: [])
-      }
-    }
   }
 }
