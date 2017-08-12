@@ -71,7 +71,7 @@ pipeline {
 
     stage("Trigger the nginx build ...") {
       steps {
-        build '../test-project-pipeline-leprechaun-jenkins-blue-test', parameters: []
+        build('../test-project-pipeline-leprechaun-jenkins-blue-test', parameters: [])
       }
     }
   }
