@@ -11,7 +11,7 @@ rm /tmp/ready || true
 
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
-export FQDN="$(hostname -I | cut -d ' ' -f1)"
+export IP="$(hostname -I | cut -d ' ' -f1)"
 export FQDN="$(hostname --fqdn)"
 export MEMORY_QUOTA="${MEMORY_QUOTA:-300}"
 export MEMORY_QUOTA_INDEX="${MEMORY_QUOTA:-300}"
@@ -77,7 +77,8 @@ worker(){
 	common
 
 	set -x
-	couchbase-cli rebalance --cluster=${STATEFULSET_NAME}-0.${STATEFULSET_NAME}.${NAMESPACE}.svc --user=$USERNAME --password=$PASSWORD --server-add=${HOSTNAME}.${STATEFULSET_NAME}.${NAMESPACE}.svc --server-add-username=$USERNAME --server-add-password=$PASSWORD
+	couchbase-cli rebalance --cluster=${STATEFULSET_NAME}-0.${STATEFULSET_NAME}.${NAMESPACE}.svc --user=$USERNAME --password=$PASSWORD --server-add=$IP --server-add-username=$USERNAME --server-add-password=$PASSWORD
+	#couchbase-cli rebalance --cluster=${STATEFULSET_NAME}-0.${STATEFULSET_NAME}.${NAMESPACE}.svc --user=$USERNAME --password=$PASSWORD --server-add=${HOSTNAME}.${STATEFULSET_NAME}.${NAMESPACE}.svc --server-add-username=$USERNAME --server-add-password=$PASSWORD
 	set +x
 
   echo 1 > /tmp/ready
