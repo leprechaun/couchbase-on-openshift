@@ -9,39 +9,6 @@ pipeline {
       }
     }
 
-    stage('Sanity Checks') {
-      steps {
-        parallel (
-          "Commit message format": {
-            sh "git rev-parse HEAD"
-          },
-          "Dunno": {
-            echo 'done'
-          },
-
-          "BuildConfigs": {
-            sh "oc get bc"
-          }
-        )
-      }
-    }
-
-    stage('Tests') {
-      steps {
-        parallel (
-          "Unit Tests": {
-            echo 'done'
-          },
-          "Function Tests": {
-            echo 'done'
-          },
-          "Urine Tests": {
-            sh "cat Jenkinsfile"
-          }
-        )
-      }
-    }
-
     stage("Build Images") {
       steps {
         script {
