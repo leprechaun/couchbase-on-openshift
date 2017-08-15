@@ -5,18 +5,20 @@ mkdir -p /opt/couchbase/var/lib/couchbase/{data,logs,stats,config}
 rm /tmp/ready || true
 
 export MODE="$1"
-export MANAGER_URI="$MANAGER_URI"
+export MANAGER_HOST="$MANAGER_HOST"
 export MEMORY_QUOTA="${MEMORY_QUOTA:-300}"
 export MEMORY_QUOTA_INDEX="${MEMORY_QUOTA:-300}"
 
-echo "Mode: $MODE"
-echo "MANAGER_URI: $MANAGER_URI"
+echo "MODE: $MODE"
+echo "MANAGER_HOST: $MANAGER_HOST"
 # expect USERNAME
 # expect PASSWORD
 # expect
 
 export IP="$(hostname -I | cut -d ' ' -f1)"
 echo "-- local ip = $IP"
+
+function join_by { local IFS="$1"; shift; echo "$*"; }
 
 wait_until_responding(){
 	while true; do
@@ -57,13 +59,13 @@ manager(){
 
 worker(){
 	wait_until_responding http://localhost:8091/
-	wait_until_responding $MANAGER_URI
+	wait_until_responding http://$MANAGER_HOST:8091
 
 	# Just in case initializing the master isn't instantaenous
 	sleep 5
 	common
 
-	couchbase-cli rebalance --cluster=couchbase-os --user=$USERNAME --password=$PASSWORD --server-add=$IP --server-add-username=$USERNAME --server-add-password=$PASSWORD
+	couchbase-cli rebalance --cluster=$MANAGER_HOST --user=$USERNAME --password=$PASSWORD --server-add=$IP --server-add-username=$USERNAME --server-add-password=$PASSWORD
 
   echo 1 > /tmp/ready
   cat /tmp/ready
@@ -83,6 +85,9 @@ bootstrap(){
 	fi
 }
 
+STATEFULSET_NAME=(${HOSTNAME//-/ })
+echo "${#STATEFULSET_NAME[@]}"
+export RE_JOINED="$(join_by '-' ${STATEFULSET_NAME[@]})"
 
 case $1 in
 couchbase-server)

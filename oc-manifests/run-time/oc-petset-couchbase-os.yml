@@ -30,8 +30,8 @@ spec:
               value: "administrator"
             - name: PASSWORD
               value: "guessme"
-            - name: MANAGER_URI
-              value: http://couchbase-os:8091
+            - name: MANAGER_HOST
+              value: couchbase-os-0
           livenessProbe:
             httpGet:
               path: /
