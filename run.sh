@@ -18,6 +18,16 @@ echo "MANAGER_HOST: $MANAGER_HOST"
 export IP="$(hostname -I | cut -d ' ' -f1)"
 echo "-- local ip = $IP"
 
+STATEFULSET_NAME=(${HOSTNAME//-/ })
+echo "${#STATEFULSET_NAME[@]}"
+
+unset 'STATEFULSET_NAME[${#STATEFULSET_NAME[@]}-1]'
+echo "ARRAY: $STATEFULSET_NAME"
+export STATEFULSET_NAME="$(join_by '-' ${STATEFULSET_NAME[@]})"
+echo "JOINED: $STATEFULSET_NAME"
+
+
+
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
 wait_until_responding(){
@@ -85,9 +95,6 @@ bootstrap(){
 	fi
 }
 
-STATEFULSET_NAME=(${HOSTNAME//-/ })
-echo "${#STATEFULSET_NAME[@]}"
-export RE_JOINED="$(join_by '-' ${STATEFULSET_NAME[@]})"
 
 case $1 in
 couchbase-server)

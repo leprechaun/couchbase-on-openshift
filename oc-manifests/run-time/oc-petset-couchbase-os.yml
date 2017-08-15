@@ -21,17 +21,15 @@ spec:
           ports:
             - containerPort: 8091
           args:
-            - "couchbase-server"
+            - couchbase-server
           volumeMounts:
             - name: couchbase-data
-              mountPath: "/opt/couchbase/var/lib/couchbase/"
+              mountPath: /opt/couchbase/var/lib/couchbase/
           env:
             - name: USERNAME
               value: "administrator"
             - name: PASSWORD
               value: "guessme"
-            - name: MANAGER_HOST
-              value: couchbase-os-0
           livenessProbe:
             httpGet:
               path: /
@@ -49,8 +47,6 @@ spec:
               value: administrator
             - name: PASSWORD
               value: guessme
-            - name: MANAGER_URI
-              value: http://couchbase-os:8091
           readinessProbe:
             exec:
               command:
