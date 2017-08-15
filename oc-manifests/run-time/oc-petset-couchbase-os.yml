@@ -45,8 +45,7 @@ spec:
               path: /
               port: 8091
         - name: bootstrap
-          image: >-
-            172.30.1.1:5000/test-project/leprechaun-couchbase-os
+          image: 172.30.1.1:5000/my-project/leprechaun-couchbase-os
           args:
             - bootstrap
           volumeMounts:
