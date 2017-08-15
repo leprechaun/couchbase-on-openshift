@@ -2,6 +2,7 @@ FROM couchbase:4.6.2
 
 USER root
 
+RUN apt-get update && apt-get -y install nmap telnet && apt-get -y clean
 ADD ./make-writable /usr/local/bin/make-writable
 RUN chmod 755 /usr/local/bin/make-writable
 
