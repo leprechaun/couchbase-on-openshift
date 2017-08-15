@@ -15,6 +15,9 @@ echo "MANAGER_HOST: $MANAGER_HOST"
 # expect PASSWORD
 # expect
 
+
+function join_by { local IFS="$1"; shift; echo "$*"; }
+
 export IP="$(hostname -I | cut -d ' ' -f1)"
 echo "-- local ip = $IP"
 
@@ -28,7 +31,6 @@ echo "JOINED: $STATEFULSET_NAME"
 
 
 
-function join_by { local IFS="$1"; shift; echo "$*"; }
 
 wait_until_responding(){
 	while true; do
