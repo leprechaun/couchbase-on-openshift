@@ -63,6 +63,9 @@ spec:
               - /tmp/ready
             initialDelaySeconds: 5
             periodSeconds: 5
+      volumes:
+      - name: couchbase-data
+        emptydir: {}
 
 #  volumeClaimTemplates:
 #    - metadata:
