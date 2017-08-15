@@ -19,8 +19,17 @@ spec:
         - name: couchbase
           image: 172.30.1.1:5000/test-project/leprechaun-couchbase-os
           ports:
-            - containerPort: 8091
             - containerPort: 4369
+            - containerPort: 8091
+            - containerPort: 8092
+            - containerPort: 11207
+            - containerPort: 11209
+            - containerPort: 11210
+            - containerPort: 11211
+            - containerPort: 11214
+            - containerPort: 11215
+            - containerPort: 18091
+            - containerPort: 18092
           args:
             - couchbase-server
           volumeMounts:
