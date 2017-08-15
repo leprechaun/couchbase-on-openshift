@@ -40,6 +40,7 @@ wait_until_responding(){
 			break
 		fi
 	done
+
 }
 
 couchbase(){
@@ -90,7 +91,6 @@ worker(){
 }
 
 bootstrap(){
-	set -x
 	# If we're the first replica.
 	if [[ "${HOSTNAME}" == *-0 ]]; then
 		manager
