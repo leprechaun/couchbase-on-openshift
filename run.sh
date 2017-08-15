@@ -11,7 +11,8 @@ rm /tmp/ready || true
 
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
-export IP="$(hostname -I | cut -d ' ' -f1)"
+export FQDN="$(hostname -I | cut -d ' ' -f1)"
+export FQDN="$(hostname -fqdn)"
 export MEMORY_QUOTA="${MEMORY_QUOTA:-300}"
 export MEMORY_QUOTA_INDEX="${MEMORY_QUOTA:-300}"
 
@@ -19,7 +20,7 @@ STATEFULSET_NAME=(${HOSTNAME//-/ })
 unset 'STATEFULSET_NAME[${#STATEFULSET_NAME[@]}-1]'
 export STATEFULSET_NAME="$(join_by '-' ${STATEFULSET_NAME[@]})"
 
-echo "-- IP: $IP"
+echo "-- FQDN: $FQDN"
 echo "-- STATEFULSET_NAME: $STATEFULSET_NAME"
 echo "-- MEMORY_QUOTA: $MEMORY_QUOTA"
 echo "-- MEMORY_QUOTA_INDEX: $MEMORY_QUOTA_INDEX"
@@ -74,7 +75,7 @@ worker(){
 	sleep 5
 	common
 
-	couchbase-cli rebalance --cluster=$STATEFULSET_NAME --user=$USERNAME --password=$PASSWORD --server-add=$IP --server-add-username=$USERNAME --server-add-password=$PASSWORD
+	couchbase-cli rebalance --cluster=$STATEFULSET_NAME --user=$USERNAME --password=$PASSWORD --server-add=$FQDN --server-add-username=$USERNAME --server-add-password=$PASSWORD
 
   echo 1 > /tmp/ready
   cat /tmp/ready
