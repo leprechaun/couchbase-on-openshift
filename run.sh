@@ -75,7 +75,9 @@ worker(){
 	sleep 5
 	common
 
+	set -x
 	couchbase-cli rebalance --cluster=$STATEFULSET_NAME --user=$USERNAME --password=$PASSWORD --server-add=$FQDN --server-add-username=$USERNAME --server-add-password=$PASSWORD
+	set +x
 
   echo 1 > /tmp/ready
   cat /tmp/ready
