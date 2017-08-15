@@ -12,7 +12,7 @@ rm /tmp/ready || true
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
 export FQDN="$(hostname -I | cut -d ' ' -f1)"
-export FQDN="$(hostname -fqdn)"
+export FQDN="$(hostname --fqdn)"
 export MEMORY_QUOTA="${MEMORY_QUOTA:-300}"
 export MEMORY_QUOTA_INDEX="${MEMORY_QUOTA:-300}"
 
