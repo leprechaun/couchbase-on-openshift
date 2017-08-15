@@ -19,6 +19,7 @@ export MEMORY_QUOTA_INDEX="${MEMORY_QUOTA:-300}"
 STATEFULSET_NAME=(${HOSTNAME//-/ })
 unset 'STATEFULSET_NAME[${#STATEFULSET_NAME[@]}-1]'
 export STATEFULSET_NAME="$(join_by '-' ${STATEFULSET_NAME[@]})"
+export NAMESPACE="$(hostname --fqdn | awk -F '.' '{ print $3 }')"
 
 echo "-- FQDN: $FQDN"
 echo "-- STATEFULSET_NAME: $STATEFULSET_NAME"
@@ -76,7 +77,7 @@ worker(){
 	common
 
 	set -x
-	couchbase-cli rebalance --cluster=${STATEFULSET_NAME}.svc.cluster.local --user=$USERNAME --password=$PASSWORD --server-add=$FQDN --server-add-username=$USERNAME --server-add-password=$PASSWORD
+	couchbase-cli rebalance --cluster=${STATEFULSET_NAME}-0.${STATEFULSET_NAME}.${NAMESPACE}.svc.cluster.local --user=$USERNAME --password=$PASSWORD --server-add=$FQDN --server-add-username=$USERNAME --server-add-password=$PASSWORD
 	set +x
 
   echo 1 > /tmp/ready
