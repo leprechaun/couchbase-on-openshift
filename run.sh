@@ -4,13 +4,6 @@ mkdir -p /opt/couchbase/var/lib/couchbase/{data,logs,stats,config}
 
 rm /tmp/ready || true
 
-export MODE="$1"
-export MANAGER_HOST="$MANAGER_HOST"
-export MEMORY_QUOTA="${MEMORY_QUOTA:-300}"
-export MEMORY_QUOTA_INDEX="${MEMORY_QUOTA:-300}"
-
-echo "MODE: $MODE"
-echo "MANAGER_HOST: $MANAGER_HOST"
 # expect USERNAME
 # expect PASSWORD
 # expect
@@ -19,15 +12,17 @@ echo "MANAGER_HOST: $MANAGER_HOST"
 function join_by { local IFS="$1"; shift; echo "$*"; }
 
 export IP="$(hostname -I | cut -d ' ' -f1)"
-echo "-- local ip = $IP"
+export MEMORY_QUOTA="${MEMORY_QUOTA:-300}"
+export MEMORY_QUOTA_INDEX="${MEMORY_QUOTA:-300}"
 
 STATEFULSET_NAME=(${HOSTNAME//-/ })
-echo "${#STATEFULSET_NAME[@]}"
-
 unset 'STATEFULSET_NAME[${#STATEFULSET_NAME[@]}-1]'
-echo "ARRAY: $STATEFULSET_NAME"
 export STATEFULSET_NAME="$(join_by '-' ${STATEFULSET_NAME[@]})"
-echo "JOINED: $STATEFULSET_NAME"
+
+echo "-- IP: $IP"
+echo "-- STATEFULSET_NAME: $STATEFULSET_NAME"
+echo "-- MEMORY_QUOTA: $MEMORY_QUOTA"
+echo "-- MEMORY_QUOTA_INDEX: $MEMORY_QUOTA_INDEX"
 
 
 
@@ -60,6 +55,7 @@ common(){
 }
 
 manager(){
+	echo "-- MODE: MANAGER"
 	wait_until_responding http://localhost:8091/
 	common
   echo 1 > /tmp/ready
@@ -70,14 +66,15 @@ manager(){
 }
 
 worker(){
+	echo "-- MODE: WORKER"
 	wait_until_responding http://localhost:8091/
-	wait_until_responding http://$MANAGER_HOST:8091
+	wait_until_responding http://$STATEFULSET_NAME:8091
 
 	# Just in case initializing the master isn't instantaenous
 	sleep 5
 	common
 
-	couchbase-cli rebalance --cluster=$MANAGER_HOST --user=$USERNAME --password=$PASSWORD --server-add=$IP --server-add-username=$USERNAME --server-add-password=$PASSWORD
+	couchbase-cli rebalance --cluster=$STATEFULSET_NAME --user=$USERNAME --password=$PASSWORD --server-add=$IP --server-add-username=$USERNAME --server-add-password=$PASSWORD
 
   echo 1 > /tmp/ready
   cat /tmp/ready
