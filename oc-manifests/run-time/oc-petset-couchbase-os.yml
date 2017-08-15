@@ -20,6 +20,7 @@ spec:
           image: 172.30.1.1:5000/test-project/leprechaun-couchbase-os
           ports:
             - containerPort: 8091
+            - erlangThing: 4369
           args:
             - couchbase-server
           volumeMounts:
