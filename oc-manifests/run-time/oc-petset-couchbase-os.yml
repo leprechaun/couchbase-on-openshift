@@ -36,9 +36,9 @@ spec:
             - name: couchbase-data
               mountPath: /opt/couchbase/var/lib/couchbase/
           env:
-            - name: USERNAME
+            - name: CB_REST_USERNAME
               value: "administrator"
-            - name: PASSWORD
+            - name: CB_REST_PASSWORD
               value: "guessme"
           livenessProbe:
             httpGet:

@@ -29,6 +29,8 @@ echo "-- MEMORY_QUOTA_INDEX: $MEMORY_QUOTA_INDEX"
 
 
 
+
+
 wait_until_responding(){
 	while true; do
 		curl -s $1
@@ -47,16 +49,6 @@ couchbase(){
 	/opt/couchbase/bin/couchbase-server -- -kernel global_enable_tracing false -noinput
 }
 
-common(){
-	set -x
-	curl -v -X POST http://127.0.0.1:8091/pools/default -d memoryQuota=300 -d indexMemoryQuota=300
-	curl -v http://127.0.0.1:8091/node/controller/setupServices -d services=kv%2Cn1ql%2Cindex
-	curl -v http://127.0.0.1:8091/settings/web -d port=8091 -d username=$USERNAME -d password=$PASSWORD
-	curl -v -X POST -u $USERNAME:$PASSWORD http://127.0.0.1:8091/node/controller/rename -d hostname=${HOSTNAME}.couchbase-os-inter-node
-	curl -i -u $USERNAME:$PASSWORD -X POST http://127.0.0.1:8091/settings/indexes -d 'storageMode=memory_optimized'
-	set +x
-}
-
 manager(){
 	echo "-- MODE: MANAGER"
 	wait_until_responding http://localhost:8091/
@@ -73,14 +65,8 @@ worker(){
 	wait_until_responding http://localhost:8091/
 	wait_until_responding http://$STATEFULSET_NAME:8091
 
-	# Just in case initializing the master isn't instantaenous
-	sleep 5
-	common
+  # set hostname
 
-	set -x
-	couchbase-cli rebalance --cluster=couchbase-os-inter-node --user=$USERNAME --password=$PASSWORD --server-add=${HOSTNAME}-couchbase-os-inter-node --server-add-username=$USERNAME --server-add-password=$PASSWORD
-	#couchbase-cli rebalance --cluster=${STATEFULSET_NAME}-0.${STATEFULSET_NAME}.${NAMESPACE}.svc --user=$USERNAME --password=$PASSWORD --server-add=${HOSTNAME}.${STATEFULSET_NAME}.${NAMESPACE}.svc --server-add-username=$USERNAME --server-add-password=$PASSWORD
-	set +x
 
   echo 1 > /tmp/ready
   cat /tmp/ready
@@ -92,11 +78,14 @@ worker(){
 
 bootstrap(){
 	# If we're the first replica.
-	if [[ "${HOSTNAME}" == *-0 ]]; then
-		manager
-	else
-		worker
-	fi
+  couchbase-cli node-init -c ${IP}:8091 \
+    --node-init-hostname=${HOSTNAME}
+
+#	if [[ "${HOSTNAME}" == *-0 ]]; then
+#		manager
+#	else
+#		worker
+#	fi
 }
 
 
