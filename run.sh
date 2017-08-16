@@ -57,7 +57,7 @@ manager(){
     --cluster-username=$CB_REST_USERNAME \
     --cluster-password=$CB_REST_PASSWORD \
     --cluster-port=8080 \
-    --services=data,index,kv \
+    --services=data,index,query,fts \
     --cluster-ramsize=$MEMORY_QUOTA \
     --cluster-index-ramsize=$MEMORY_QUOTA_INDEX \
     --index-storage-setting=memopt
