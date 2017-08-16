@@ -85,7 +85,7 @@ bootstrap(){
 	# If we're the first replica.
   set -x
   couchbase-cli node-init -c ${IP}:8091 \
-    --node-init-hostname=${FQDN}
+    --node-init-hostname=${IP}
   set +x
 
   echo "-- bootstrap finished"
