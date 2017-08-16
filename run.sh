@@ -79,7 +79,7 @@ worker(){
 	common
 
 	set -x
-	couchbase-cli rebalance --cluster=couchbase-os-inter-node --user=$USERNAME --password=$PASSWORD --server-add=${HOSTNAME}-couchbase-os-inter-node --server-add-username=$USERNAME --server-add-password=$PASSWORD
+	couchbase-cli rebalance --cluster=couchbase-os-inter-node --user=$USERNAME --password=$PASSWORD --server-add=${HOSTNAME} --server-add-username=$USERNAME --server-add-password=$PASSWORD
 	#couchbase-cli rebalance --cluster=${STATEFULSET_NAME}-0.${STATEFULSET_NAME}.${NAMESPACE}.svc --user=$USERNAME --password=$PASSWORD --server-add=${HOSTNAME}.${STATEFULSET_NAME}.${NAMESPACE}.svc --server-add-username=$USERNAME --server-add-password=$PASSWORD
 	set +x
 
