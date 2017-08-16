@@ -62,7 +62,6 @@ manager(){
 
 worker(){
 	echo "-- MODE: WORKER"
-	wait_until_responding http://localhost:8091/
 	wait_until_responding http://$STATEFULSET_NAME:8091
 
   # set hostname
@@ -77,6 +76,8 @@ worker(){
 }
 
 bootstrap(){
+	wait_until_responding http://localhost:8091/
+
 	# If we're the first replica.
   couchbase-cli node-init -c ${IP}:8091 \
     --node-init-hostname=${HOSTNAME}
