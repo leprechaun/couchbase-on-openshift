@@ -25,10 +25,6 @@ echo "-- FQDN: $FQDN"
 echo "-- STATEFULSET_NAME: $STATEFULSET_NAME"
 echo "-- MEMORY_QUOTA: $MEMORY_QUOTA"
 echo "-- MEMORY_QUOTA_INDEX: $MEMORY_QUOTA_INDEX"
-echo "-- USERNAME: $CB_REST_USERNAME"
-echo "-- PASSWORD: $CB_REST_PASSWORD"
-
-
 
 
 
@@ -37,11 +33,12 @@ wait_until_responding(){
 	while true; do
 		curl -s $1
 		ALIVE="$?"
+		echo "is $1 alive? $ALIVE"
+		sleep 1
+
 		if [[ "$ALIVE" -eq "0" ]]; then
 			break
 		fi
-		echo "is $1 alive? $ALIVE"
-		sleep 1
 	done
 
 }
@@ -50,44 +47,51 @@ couchbase(){
 	/opt/couchbase/bin/couchbase-server -- -kernel global_enable_tracing false -noinput
 }
 
+common(){
+	set -x
+	curl -v -X POST http://${IP}:8091/pools/default -d memoryQuota=300 -d indexMemoryQuota=300
+	curl -v http://${IP}:8091/node/controller/setupServices -d services=kv%2Cn1ql%2Cindex
+	curl -v http://${IP}:8091/settings/web -d port=8091 -d username=$USERNAME -d password=$PASSWORD
+	curl -v -X POST -u $USERNAME:$PASSWORD http://${IP}:8091/node/controller/rename -d hostname=${IP}
+	curl -i -u $USERNAME:$PASSWORD -X POST http://${IP}:8091/settings/indexes -d 'storageMode=memory_optimized'
+	set +x
+}
+
 manager(){
 	echo "-- MODE: MANAGER"
-  set -x
-  couchbase-cli cluster-init -c ${IP}:8091 \
-    --cluster-username=$CB_REST_USERNAME \
-    --cluster-password=$CB_REST_PASSWORD \
-    --cluster-port=8080 \
-    --services=data,index,query,fts \
-    --cluster-ramsize=$MEMORY_QUOTA \
-    --cluster-index-ramsize=$MEMORY_QUOTA_INDEX \
-    --index-storage-setting=memopt
-  echo $?
-  set +x
+	wait_until_responding http://localhost:8091/
+	common
   echo 1 > /tmp/ready
-  echo "-- bootstrap finished"
+	sleep 3600
+	echo "Bootstrap finished"
+	exit 0
+
 }
 
 worker(){
 	echo "-- MODE: WORKER"
-	wait_until_responding http://$STATEFULSET_NAME:8091
+	wait_until_responding http://${IP}:8091/
+	wait_until_responding http://${STATEFULSET_NAME}:8091
 
-  # set hostname
+	# Just in case initializing the master isn't instantaenous
+	sleep 5
+	common
 
+	set -x
+	couchbase-cli rebalance --cluster=couchbase-os-inter-node --user=$USERNAME --password=$PASSWORD --server-add=${HOSTNAME}-couchbase-os-inter-node --server-add-username=$USERNAME --server-add-password=$PASSWORD
+	#couchbase-cli rebalance --cluster=${STATEFULSET_NAME}-0.${STATEFULSET_NAME}.${NAMESPACE}.svc --user=$USERNAME --password=$PASSWORD --server-add=${HOSTNAME}.${STATEFULSET_NAME}.${NAMESPACE}.svc --server-add-username=$USERNAME --server-add-password=$PASSWORD
+	set +x
 
   echo 1 > /tmp/ready
   cat /tmp/ready
+
+	echo "Bootstrap finished"
+	sleep 3600
+	exit 0
 }
 
 bootstrap(){
-	wait_until_responding http://$IP:8091/
-
 	# If we're the first replica.
-  set -x
-  couchbase-cli node-init -c ${IP}:8091 \
-    --node-init-hostname=${IP}
-  set +x
-
-  echo "-- bootstrap finished"
 	if [[ "${HOSTNAME}" == *-0 ]]; then
 		manager
 	else
@@ -103,7 +107,7 @@ couchbase-server)
 
 bootstrap)
 	bootstrap
-  tail -f /opt/couchbase/var/lib/couchbase/logs/info.log
+	sleep 3600
 	;;
 *)
 	$(${@})
