@@ -21,6 +21,7 @@ unset 'STATEFULSET_NAME[${#STATEFULSET_NAME[@]}-1]'
 export STATEFULSET_NAME="$(join_by '-' ${STATEFULSET_NAME[@]})"
 export NAMESPACE="$(hostname --fqdn | awk -F '.' '{ print $3 }')"
 
+echo "-- IP: $IP"
 echo "-- FQDN: $FQDN"
 echo "-- STATEFULSET_NAME: $STATEFULSET_NAME"
 echo "-- MEMORY_QUOTA: $MEMORY_QUOTA"
