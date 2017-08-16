@@ -53,8 +53,14 @@ couchbase(){
 
 manager(){
 	echo "-- MODE: MANAGER"
-	wait_until_responding http://localhost:8091/
-	common
+  couchbase-cli cluster-init -c 192.168.0.1:8091 \
+    --cluster-username=$CB_REST_USERNAME \
+    --cluster-password=$CB_REST_PASSWORD \
+    --cluster-port=8080 \
+    --services=data,index \
+    --cluster-ramsize=$MEMORY_QUOTA \
+    --cluster-index-ramsize=$MEMORY_QUOTA_INDEX \
+    --index-storage-setting=memopt
   echo 1 > /tmp/ready
   echo "-- bootstrap finished"
 }
@@ -74,15 +80,17 @@ bootstrap(){
 	wait_until_responding http://localhost:8091/
 
 	# If we're the first replica.
+  set -x
   couchbase-cli node-init -c ${IP}:8091 \
     --node-init-hostname=${FQDN}
+  set +x
 
   echo "-- bootstrap finished"
-#	if [[ "${HOSTNAME}" == *-0 ]]; then
-#		manager
-#	else
-#		worker
-#	fi
+	if [[ "${HOSTNAME}" == *-0 ]]; then
+		manager
+	else
+		worker
+	fi
 }
 
 
