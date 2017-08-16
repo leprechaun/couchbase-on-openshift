@@ -62,7 +62,7 @@ common(){
 
 manager(){
 	echo "-- MODE: MANAGER"
-	wait_until_responding http://localhost:8091/
+	wait_until_responding http://${IP}:8091/
 	common
   echo 1 > /tmp/ready
 	echo "Bootstrap finished"
