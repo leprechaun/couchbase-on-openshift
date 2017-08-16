@@ -54,7 +54,7 @@ couchbase(){
 manager(){
 	echo "-- MODE: MANAGER"
   set -x
-  couchbase-cli cluster-init -c 192.168.0.1:8091 \
+  couchbase-cli cluster-init -c ${IP}:8091 \
     --cluster-username=$CB_REST_USERNAME \
     --cluster-password=$CB_REST_PASSWORD \
     --cluster-port=8080 \
