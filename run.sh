@@ -37,12 +37,11 @@ wait_until_responding(){
 	while true; do
 		curl -s $1
 		ALIVE="$?"
-		echo "is $1 alive? $ALIVE"
-		sleep 1
-
 		if [[ "$ALIVE" -eq "0" ]]; then
 			break
 		fi
+		echo "is $1 alive? $ALIVE"
+		sleep 1
 	done
 
 }
@@ -80,7 +79,7 @@ worker(){
 }
 
 bootstrap(){
-	wait_until_responding http://localhost:8091/
+	wait_until_responding http://$IP:8091/
 
 	# If we're the first replica.
   set -x
