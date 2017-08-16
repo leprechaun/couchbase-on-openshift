@@ -53,6 +53,7 @@ couchbase(){
 
 manager(){
 	echo "-- MODE: MANAGER"
+  set -x
   couchbase-cli cluster-init -c 192.168.0.1:8091 \
     --cluster-username=$CB_REST_USERNAME \
     --cluster-password=$CB_REST_PASSWORD \
@@ -61,6 +62,8 @@ manager(){
     --cluster-ramsize=$MEMORY_QUOTA \
     --cluster-index-ramsize=$MEMORY_QUOTA_INDEX \
     --index-storage-setting=memopt
+  echo $?
+  set +x
   echo 1 > /tmp/ready
   echo "-- bootstrap finished"
 }
