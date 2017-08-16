@@ -9,8 +9,6 @@ spec:
       uri: "https://github.com/leprechaun/couchbase-on-openshift"
   strategy:
     type: Docker
-    dockerStragegy:
-      noCache: true
   output:
     to:
       kind: "ImageStreamTag"
