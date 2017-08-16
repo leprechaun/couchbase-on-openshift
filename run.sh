@@ -55,7 +55,7 @@ common(){
 	curl -v -X POST http://${IP}:8091/pools/default -d memoryQuota=300 -d indexMemoryQuota=300
 	curl -v http://${IP}:8091/node/controller/setupServices -d services=kv%2Cn1ql%2Cindex
 	curl -v http://${IP}:8091/settings/web -d port=8091 -d username=$USERNAME -d password=$PASSWORD
-	curl -v -X POST -u $USERNAME:$PASSWORD http://${IP}:8091/node/controller/rename -d hostname=${IP}
+	curl -v -X POST -u $USERNAME:$PASSWORD http://${IP}:8091/node/controller/rename -d hostname=${FQDN}
 	curl -i -u $USERNAME:$PASSWORD -X POST http://${IP}:8091/settings/indexes -d 'storageMode=memory_optimized'
 	set +x
 }
