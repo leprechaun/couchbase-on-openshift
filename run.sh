@@ -56,10 +56,7 @@ manager(){
 	wait_until_responding http://localhost:8091/
 	common
   echo 1 > /tmp/ready
-	sleep 3600
-	echo "Bootstrap finished"
-	exit 0
-
+  echo "-- bootstrap finished"
 }
 
 worker(){
@@ -71,10 +68,6 @@ worker(){
 
   echo 1 > /tmp/ready
   cat /tmp/ready
-
-	echo "Bootstrap finished"
-	sleep 3600
-	exit 0
 }
 
 bootstrap(){
@@ -84,6 +77,7 @@ bootstrap(){
   couchbase-cli node-init -c ${IP}:8091 \
     --node-init-hostname=${HOSTNAME}
 
+  echo "-- bootstrap finished"
 #	if [[ "${HOSTNAME}" == *-0 ]]; then
 #		manager
 #	else
@@ -99,7 +93,7 @@ couchbase-server)
 
 bootstrap)
 	bootstrap
-	sleep 3600
+  tail -f /opt/couchbase/var/lib/couchbase/logs/info.log
 	;;
 *)
 	$(${@})
